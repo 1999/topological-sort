@@ -122,10 +122,10 @@ describe('topological-sort', () => {
         sortOp.addNode('block_mod_val', 'file://...');
 
         const edges = [
-            {from: 'mixins', to: 'variables'},
-            {from: 'block', to: 'variables'},
-            {from: 'block', to: 'mixins'},
-            {from: 'block_mod_val', to: 'block'}
+            {from: 'variables', to: 'mixins'},
+            {from: 'variables', to: 'block'},
+            {from: 'mixins', to: 'block'},
+            {from: 'block', to: 'block_mod_val'}
         ];
 
         checkEdgesValid(sortOp, edges);
@@ -144,15 +144,15 @@ describe('topological-sort', () => {
         ]));
 
         const edges = [
-            {from: 'mixins', to: 'variables'},
-            {from: 'argument', to: 'variables'},
-            {from: 'argument', to: 'mixins'},
+            {from: 'variables', to: 'mixins'},
+            {from: 'variables', to: 'argument'},
+            {from: 'mixins', to: 'argument'},
             {from: 'argument', to: 'user'},
-            {from: 'user', to: 'user-avatar'},
-            {from: 'user-avatar', to: 'variables'},
-            {from: 'user-avatar', to: 'mixins'},
-            {from: 'user', to: 'variables'},
-            {from: 'user', to: 'mixins'}
+            {from: 'user-avatar', to: 'user'},
+            {from: 'variables', to: 'user-avatar'},
+            {from: 'mixins', to: 'user-avatar'},
+            {from: 'variables', to: 'user'},
+            {from: 'mixins', to: 'user'}
         ];
 
         checkEdgesValid(sortOp, edges);
