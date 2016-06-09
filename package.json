@@ -1,0 +1,14 @@
+{
+  "name": "topological-sort",
+  "version": "0.0.1",
+  "description": "Topological sort implemented in Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Dmitry Sorin <info@staypositive.ru>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  }
+}
