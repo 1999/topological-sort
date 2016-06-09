@@ -18,14 +18,14 @@ class TopologicalSort {
     }
 
     addEdge(fromKey, toKey) {
-        assert(!this._nodes.has(fromKey), `Node source node with ${key} key exists`);
-        assert(!this._nodes.has(toKey), `Node target node with ${key} key exists`);
+        assert(this._nodes.has(fromKey), `Source node with ${fromKey} key should exist`);
+        assert(this._nodes.has(toKey), `Target node with ${toKey} key should exist`);
 
         const sourceNode = this._nodes.get(fromKey);
         const targetNode = this._nodes.get(toKey);
 
-        assert.strictEqual(sourceNode !== undefined, `Source node with key ${fromKey} doesn't exist`);
-        assert.strictEqual(targetNode !== undefined, `Target node with key ${toKey} doesn't exist`);
+        assert.strictEqual(sourceNode !== undefined, true, `Source node with key ${fromKey} doesn't exist`);
+        assert.strictEqual(targetNode !== undefined, true, `Target node with key ${toKey} doesn't exist`);
         assert.strictEqual(sourceNode.children.has(toKey), false, `Source node ${fromKey} already has an adge to target node ${toKey}`);
 
         sourceNode.children.set(toKey, targetNode);

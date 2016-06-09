@@ -68,7 +68,44 @@ describe('topological-sort', () => {
     });
 
     it('should sort nodes passed in constructor only + addEdge()', () => {
-        throw new Error('NOT_IMPLEMENTED');
+        const nodes = new Map([
+            ['A', 1],
+            ['B', 2],
+            ['C', 3],
+            ['D', 4],
+            ['E', 5],
+            ['F', 6],
+            ['G', 7],
+            ['H', 8]
+        ]);
+        const sortOp = new TopologicalSort(nodes);
+
+        const edges = [
+            {from: 'A', to: 'C'},
+            {from: 'B', to: 'C'},
+            {from: 'B', to: 'D'},
+            {from: 'C', to: 'E'},
+            {from: 'D', to: 'F'},
+            {from: 'E', to: 'F'},
+            {from: 'E', to: 'H'},
+            {from: 'F', to: 'G'}
+        ];
+
+        edges.forEach(edge => sortOp.addEdge(edge.from, edge.to));
+
+        const res = sortOp.sort();
+        const sortedKeys = [...res.keys()];
+
+        ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].forEach(char => {
+            assert(res.has(char), `Result map should contain node with key ${char}`);
+        });
+
+        edges.forEach(edge => {
+            assert(
+                sortedKeys.indexOf(edge.from) < sortedKeys.indexOf(edge.to),
+                `Node ${edge.from} should be placed before ${edge.to} in sorted output`
+            );
+        });
     });
 
     it('should sort nodes passed in constructor + addNode()', () => {
