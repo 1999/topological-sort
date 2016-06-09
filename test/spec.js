@@ -4,6 +4,26 @@ const assert = require('assert');
 const mocha = require('mocha');
 const TopologicalSort = require('../');
 
+/**
+ * Validation routine for edges
+ *
+ * @param {TopologicalSort} sortOp
+ * @param {Array<Object{from, to}>} edges
+ */
+function checkEdgesValid(sortOp, edges) {
+    edges.forEach(edge => sortOp.addEdge(edge.from, edge.to));
+
+    const res = sortOp.sort();
+    const sortedKeys = [...res.keys()];
+
+    edges.forEach(edge => {
+        assert(
+            sortedKeys.indexOf(edge.from) < sortedKeys.indexOf(edge.to),
+            `Node ${edge.from} should be placed before ${edge.to} in sorted output`
+        );
+    });
+}
+
 describe('topological-sort', () => {
     it('should use expected API functions', () => {
         assert.strictEqual(typeof TopologicalSort, 'function', 'Main exported object should be a function');
@@ -79,7 +99,6 @@ describe('topological-sort', () => {
             ['H', 8]
         ]);
         const sortOp = new TopologicalSort(nodes);
-
         const edges = [
             {from: 'A', to: 'C'},
             {from: 'B', to: 'C'},
@@ -91,28 +110,51 @@ describe('topological-sort', () => {
             {from: 'F', to: 'G'}
         ];
 
-        edges.forEach(edge => sortOp.addEdge(edge.from, edge.to));
-
-        const res = sortOp.sort();
-        const sortedKeys = [...res.keys()];
-
-        ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].forEach(char => {
-            assert(res.has(char), `Result map should contain node with key ${char}`);
-        });
-
-        edges.forEach(edge => {
-            assert(
-                sortedKeys.indexOf(edge.from) < sortedKeys.indexOf(edge.to),
-                `Node ${edge.from} should be placed before ${edge.to} in sorted output`
-            );
-        });
+        checkEdgesValid(sortOp, edges);
     });
 
     it('should sort nodes passed in constructor + addNode()', () => {
-        throw new Error('NOT_IMPLEMENTED');
+        const nodes = new Map([['variables', 'file://...']]);
+        const sortOp = new TopologicalSort(nodes);
+
+        sortOp.addNode('mixins', 'file://...');
+        sortOp.addNode('block', 'file://...');
+        sortOp.addNode('block_mod_val', 'file://...');
+
+        const edges = [
+            {from: 'mixins', to: 'variables'},
+            {from: 'block', to: 'variables'},
+            {from: 'block', to: 'mixins'},
+            {from: 'block_mod_val', to: 'block'}
+        ];
+
+        checkEdgesValid(sortOp, edges);
     });
 
     it('should sort nodes passed in constructor + addNodes()', () => {
-        throw new Error('NOT_IMPLEMENTED');
+        const nodes = new Map([['variables', 'file://...']]);
+        const sortOp = new TopologicalSort(nodes);
+
+        sortOp.addNodes(new Map([
+            ['mixins', 'file://...'],
+            ['argument', 'file://...'],
+            ['mixins', 'file://...'],
+            ['user', 'file://...'],
+            ['user-avatar', 'file://...']
+        ]));
+
+        const edges = [
+            {from: 'mixins', to: 'variables'},
+            {from: 'argument', to: 'variables'},
+            {from: 'argument', to: 'mixins'},
+            {from: 'argument', to: 'user'},
+            {from: 'user', to: 'user-avatar'},
+            {from: 'user-avatar', to: 'variables'},
+            {from: 'user-avatar', to: 'mixins'},
+            {from: 'user', to: 'variables'},
+            {from: 'user', to: 'mixins'}
+        ];
+
+        checkEdgesValid(sortOp, edges);
     });
 });
