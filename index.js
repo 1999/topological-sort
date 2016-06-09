@@ -4,22 +4,17 @@ const assert = require('assert');
 
 class TopologicalSort {
 
-    constructor(map) {
+    constructor(nodes) {
         this._nodes = new Map;
-
-        for (let [key, node] of map) {
-            this._addNode(key, node);
-        }
+        this._addNodes(nodes);
     }
 
     addNode(key, node) {
         return this._addNode(key, node);
     }
 
-    addNodes(map) {
-        for (let [key, node] of map) {
-            this._addNode(key, node);
-        }
+    addNodes(nodes) {
+        this._addNodes(nodes);
     }
 
     addEdge(fromKey, toKey) {
@@ -39,13 +34,13 @@ class TopologicalSort {
     sort() {
         const visitedNodes = new Set;
         const sortedKeysStack = [];
-        const output = [];
+        const output = new Map;
 
         for (const [key] of this._nodes) {
             this._exploreNode(key, visitedNodes, sortedKeysStack);
         }
 
-        for (const i = sortedKeysStack.length - 1; i >= 0; i--) {
+        for (let i = sortedKeysStack.length - 1; i >= 0; i--) {
             output.set(sortedKeysStack[i], this._nodes.get(sortedKeysStack[i]));
         }
 
@@ -81,6 +76,12 @@ class TopologicalSort {
         });
 
         return this;
+    }
+
+    _addNodes(nodes) {
+        for (let [key, node] of nodes) {
+            this._addNode(key, node);
+        }
     }
 
 }
