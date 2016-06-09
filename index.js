@@ -71,9 +71,7 @@ class TopologicalSort {
     }
 
     _addNode(key, node) {
-        if (this._nodes.has(key)) {
-            throw;
-        }
+        assert.strictEqual(this._nodes.has(key), false, `Node ${key} already exists`);
 
         // TODO: check circular dependencies
 
