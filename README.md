@@ -20,7 +20,7 @@ sortOp.addNodes(new Map([
 ]));
 
 // then you should add adges between nodes
-sortOp.addEdge('variables', 'mixins');
+sortOp.addEdge('variables', 'mixins'); // from, to
 sortOp.addEdge('mixins', 'block');
 sortOp.addEdge('variables', 'block');
 sortOp.addEdge('block', 'block_mod_val2');
