@@ -197,4 +197,34 @@ describe('topological-sort', () => {
             );
         });
     });
+
+    it('should throw if node edges form circular dependency', () => {
+        const nodes = new Map([
+            ['variables', 'file://...'],
+            ['mixins', 'file://...'],
+            ['argument', 'file://...'],
+            ['mixins', 'file://...'],
+            ['user', 'file://...'],
+            ['user-avatar', 'file://...']
+        ]);
+        const sortOp = new TopologicalSort(nodes);
+
+        const edges = [
+            {from: 'variables', to: 'mixins'},
+            {from: 'variables', to: 'argument'},
+            {from: 'mixins', to: 'argument'},
+            {from: 'argument', to: 'user'},
+            {from: 'user-avatar', to: 'user'},
+            {from: 'variables', to: 'user-avatar'},
+            {from: 'mixins', to: 'user-avatar'},
+            {from: 'variables', to: 'user'},
+            {from: 'user', to: 'mixins'}
+        ];
+
+        edges.forEach(({from, to}) => sortOp.addEdge(from, to));
+
+        assert.throws(() => {
+            sortOp.sort();
+        }, 'sort() should throw if there are circular dependencies');
+    });
 });
