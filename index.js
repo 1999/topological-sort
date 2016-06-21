@@ -32,37 +32,45 @@ class TopologicalSort {
     }
 
     sort() {
-        const visitedNodes = new Set;
-        const sortedKeysStack = [];
+        this._visitedNodes = new Set;
+        this._sortedKeysStack = [];
+        this._pickNodes = new Set;
         const output = new Map;
 
         for (const [key] of this._nodes) {
-            this._exploreNode(key, visitedNodes, sortedKeysStack);
+            this._pickNodes.add(key);
+            this._exploreNode(key, [key], true);
         }
 
-        for (let i = sortedKeysStack.length - 1; i >= 0; i--) {
-            output.set(sortedKeysStack[i], this._nodes.get(sortedKeysStack[i]));
+        for (let i = this._sortedKeysStack.length - 1; i >= 0; i--) {
+            output.set(this._sortedKeysStack[i], this._nodes.get(this._sortedKeysStack[i]));
         }
 
         return output;
     }
 
-    _exploreNode(nodeKey, visitedNodesRef, stackRef) {
-        const node = this._nodes.get(nodeKey);
+    _exploreNode(nodeKey, explorePath, skipCurrentNodeCheck = false) {
+        if (!skipCurrentNodeCheck) {
+            assert(!this._pickNodes.has(nodeKey), `Node ${nodeKey} forms circular dependency: ${explorePath.join(' -> ')}`);
+        }
 
-        if (visitedNodesRef.has(node)) {
+        const node = this._nodes.get(nodeKey);
+        if (this._visitedNodes.has(node)) {
             return;
         }
 
         // mark node as visited so that it and its children
         // won't be explored next time
-        visitedNodesRef.add(node);
+        this._visitedNodes.add(node);
 
         for (const [childNodeKey] of node.children) {
-            this._exploreNode(childNodeKey, visitedNodesRef, stackRef);
+            this._exploreNode(
+                childNodeKey,
+                [...explorePath, childNodeKey]
+            );
         }
 
-        stackRef.push(nodeKey);
+        this._sortedKeysStack.push(nodeKey);
     }
 
     _addNode(key, node) {
