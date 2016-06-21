@@ -26,7 +26,8 @@ sortOp.addEdge('variables', 'block');
 sortOp.addEdge('block', 'block_mod_val2');
 sortOp.addEdge('block', 'block_mod_val1');
 
-// sorting is simple: it returns a new map wih sorted elements:
+// sorting is simple: it returns a new map wih sorted elements
+// if circular dependency is found, sort() operation throws an AssertionError
 const sorted = sortOp.sort();
 const sortedKeys = [...res.keys()]; // ['variables', 'mixins', 'block', 'block_mod_val1', 'block_mod_val2']
 ```

@@ -1,6 +1,6 @@
 {
   "name": "topological-sort",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Topological sort implemented in Javascript",
   "main": "index.js",
   "repositories": [
