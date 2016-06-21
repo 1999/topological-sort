@@ -210,7 +210,7 @@ describe('topological-sort', () => {
         const sortOp = new TopologicalSort(nodes);
 
         const edges = [
-            {from: 'variables', to: 'mixins'},
+            {from: 'mixins', to: 'variables'},
             {from: 'variables', to: 'argument'},
             {from: 'mixins', to: 'argument'},
             {from: 'argument', to: 'user'},

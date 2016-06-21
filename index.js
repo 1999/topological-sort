@@ -34,10 +34,12 @@ class TopologicalSort {
     sort() {
         this._visitedNodes = new Set;
         this._sortedKeysStack = [];
+        this._pickNodes = new Set;
         const output = new Map;
 
         for (const [key] of this._nodes) {
-            this._exploreNode(key);
+            this._pickNodes.add(key);
+            this._exploreNode(key, [key], true);
         }
 
         for (let i = this._sortedKeysStack.length - 1; i >= 0; i--) {
@@ -47,9 +49,12 @@ class TopologicalSort {
         return output;
     }
 
-    _exploreNode(nodeKey) {
-        const node = this._nodes.get(nodeKey);
+    _exploreNode(nodeKey, explorePath, skipCurrentNodeCheck = false) {
+        if (!skipCurrentNodeCheck) {
+            assert(!this._pickNodes.has(nodeKey), `Node ${nodeKey} forms circular dependency: ${explorePath.join(' -> ')}`);
+        }
 
+        const node = this._nodes.get(nodeKey);
         if (this._visitedNodes.has(node)) {
             return;
         }
@@ -59,7 +64,10 @@ class TopologicalSort {
         this._visitedNodes.add(node);
 
         for (const [childNodeKey] of node.children) {
-            this._exploreNode(childNodeKey);
+            this._exploreNode(
+                childNodeKey,
+                [...explorePath, childNodeKey]
+            );
         }
 
         this._sortedKeysStack.push(nodeKey);
