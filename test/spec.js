@@ -228,6 +228,29 @@ describe('topological-sort', () => {
         }, 'sort() should throw if there are circular dependencies');
     });
 
+    it('should throw if node edges form circular dependency starting from index 1', () => {
+        const nodes = new Map([
+            ['A', 'file://...'],
+            ['B', 'file://...'],
+            ['C', 'file://...'],
+            ['D', 'file://...']
+        ]);
+        const sortOp = new TopologicalSort(nodes);
+
+        const edges = [
+            {from: 'A', to: 'B'},
+            {from: 'B', to: 'C'},
+            {from: 'C', to: 'D'},
+            {from: 'D', to: 'B'}
+        ];
+
+        edges.forEach(({from, to}) => sortOp.addEdge(from, to));
+
+        assert.throws(() => {
+            sortOp.sort();
+        }, 'sort() should throw if there are circular dependencies');
+    });
+
     it('shouldn\'t throw for missing circular dependency', () => {
         const nodes = new Map([
             ['B', 'file://...'],
