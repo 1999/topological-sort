@@ -240,4 +240,17 @@ describe('topological-sort', () => {
             sortOp.sort();
         }, 'sort() should not throw if node without dependencies is standing at index 0');
     });
+
+    it('shouldn\'t loose content associated with map keys after sort', () => {
+        const nodes = new Map([
+            ['A', 'some A contents'],
+            ['B', 'some B contents']
+        ]);
+        const sortOp = new TopologicalSort(nodes);
+        sortOp.addEdge('A', 'B');
+
+        const sorted = sortOp.sort();
+        assert.strictEqual(sorted.get('A'), 'some A contents');
+        assert.strictEqual(sorted.get('B'), 'some B contents');
+    });
 });
