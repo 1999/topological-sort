@@ -34,12 +34,10 @@ class TopologicalSort {
     sort() {
         this._visitedNodes = new Set;
         this._sortedKeysStack = [];
-        this._pickNodes = new Set;
         const output = new Map;
 
         for (const [key] of this._nodes) {
-            this._pickNodes.add(key);
-            this._exploreNode(key, [key], true);
+            this._exploreNode(key, [key]);
         }
 
         for (let i = this._sortedKeysStack.length - 1; i >= 0; i--) {
@@ -49,9 +47,10 @@ class TopologicalSort {
         return output;
     }
 
-    _exploreNode(nodeKey, explorePath, skipCurrentNodeCheck = false) {
-        if (!skipCurrentNodeCheck) {
-            assert(!this._pickNodes.has(nodeKey), `Node ${nodeKey} forms circular dependency: ${explorePath.join(' -> ')}`);
+    _exploreNode(nodeKey, explorePath) {
+        // we should check circular dependencies starting from node 2
+        if (explorePath.length > 1) {
+            assert(nodeKey !== explorePath[0], `Node ${nodeKey} forms circular dependency: ${explorePath.join(' -> ')}`);
         }
 
         const node = this._nodes.get(nodeKey);

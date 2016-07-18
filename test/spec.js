@@ -227,4 +227,17 @@ describe('topological-sort', () => {
             sortOp.sort();
         }, 'sort() should throw if there are circular dependencies');
     });
+
+    it('shouldn\'t throw for missing circular dependency', () => {
+        const nodes = new Map([
+            ['B', 'file://...'],
+            ['A', 'file://...']
+        ]);
+        const sortOp = new TopologicalSort(nodes);
+        sortOp.addEdge('A', 'B');
+
+        assert.doesNotThrow(() => {
+            sortOp.sort();
+        }, 'sort() should not throw if node without dependencies is standing at index 0');
+    });
 });
