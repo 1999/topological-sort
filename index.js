@@ -83,7 +83,10 @@ class TopologicalSort {
     }
 
     _addNodes(nodes) {
-        for (let [key, node] of nodes) {
+        const nodesFlat = [...nodes];
+
+        for (let i = nodes.size - 1; i >= 0; i--) {
+            const [key, node] = nodesFlat[i];
             this._addNode(key, node);
         }
     }
