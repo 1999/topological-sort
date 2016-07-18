@@ -41,7 +41,7 @@ class TopologicalSort {
         }
 
         for (let i = this._sortedKeysStack.length - 1; i >= 0; i--) {
-            output.set(this._sortedKeysStack[i], this._nodes.get(this._sortedKeysStack[i]));
+            output.set(this._sortedKeysStack[i], this._nodes.get(this._sortedKeysStack[i]).node);
         }
 
         return output;
@@ -74,8 +74,6 @@ class TopologicalSort {
 
     _addNode(key, node) {
         assert.strictEqual(this._nodes.has(key), false, `Node ${key} already exists`);
-
-        // TODO: check circular dependencies
 
         this._nodes.set(key, {
             node,
