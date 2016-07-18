@@ -10,5 +10,5 @@ insert_final_newline = true
 charset = utf-8
 trim_trailing_whitespace = true
 
-[package.json]
+[{package.json, .babelrc}]
 indent_size = 2

@@ -1,21 +1,30 @@
 {
   "name": "topological-sort",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Topological sort implemented in Javascript",
-  "main": "index.js",
+  "main": "build.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/1999/topological-sort.git"
   },
   "scripts": {
+    "prepublish": "./node_modules/.bin/babel index.js --out-file build.js",
     "test": "mocha test/"
   },
   "author": "Dmitry Sorin <info@staypositive.ru>",
   "license": "MIT",
   "engines": {
-    "node": ">=6"
+    "node": ">=4"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-array-includes": "^2.0.3",
+    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
+    "babel-plugin-transform-es2015-parameters": "^6.11.3",
+    "babel-plugin-transform-es2015-spread": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "mocha": "^2.5.3"
   }
 }
