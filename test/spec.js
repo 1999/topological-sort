@@ -237,7 +237,7 @@ describe('topological-sort', () => {
         sortOp.addEdge('A', 'B');
 
         assert.doesNotThrow(() => {
-            console.log(sortOp.sort());
+            sortOp.sort();
         }, 'sort() should not throw if node without dependencies is standing at index 0');
     });
 });
