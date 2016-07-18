@@ -78,6 +78,17 @@ describe('topological-sort', () => {
         }, 'addNodes() should throw an error if nodes already exists');
     });
 
+    it('should not change order of input nodes if no edges exist', () => {
+        const nodes = new Map([['A', 1], ['B', 2], ['C', 3]]);
+        const sortOp = new TopologicalSort(nodes);
+        const res = sortOp.sort();
+        const sortedKeys = [...res.keys()];
+
+        assert.strictEqual(sortedKeys[0], 'A');
+        assert.strictEqual(sortedKeys[1], 'B');
+        assert.strictEqual(sortedKeys[2], 'C');
+    });
+
     it('should return map after sort()', () => {
         const nodes = new Map([['A', 1], ['B', 2], ['C', 3]]);
         const sortOp = new TopologicalSort(nodes);
