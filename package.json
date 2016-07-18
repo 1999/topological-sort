@@ -3,12 +3,10 @@
   "version": "0.1.1",
   "description": "Topological sort implemented in Javascript",
   "main": "index.js",
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/1999/topological-sort.git"
-    }
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1999/topological-sort.git"
+  },
   "scripts": {
     "test": "mocha test/"
   },
