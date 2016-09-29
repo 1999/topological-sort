@@ -17,14 +17,14 @@
     "node": ">=4"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
+    "babel-cli": "^6.16.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
-    "babel-plugin-transform-es2015-parameters": "^6.11.3",
+    "babel-plugin-transform-es2015-destructuring": "^6.16.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
+    "babel-plugin-transform-es2015-parameters": "^6.16.0",
     "babel-plugin-transform-es2015-spread": "^6.8.0",
-    "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "mocha": "^2.5.3"
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
+    "mocha": "^3.1.0"
   }
 }
