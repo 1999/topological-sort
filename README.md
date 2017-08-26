@@ -1,4 +1,6 @@
 # Topological sort implemented in Javascript (ES2016)
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/1999/topological-sort.svg)](https://greenkeeper.io/)
 [![Build Status](https://img.shields.io/travis/1999/topological-sort.svg?style=flat)](https://travis-ci.org/1999/topological-sort)
 [![DevDependency Status](http://img.shields.io/david/dev/1999/topological-sort.svg?style=flat)](https://david-dm.org/1999/topological-sort#info=devDependencies)
 
