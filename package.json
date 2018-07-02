@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-add-module-exports": "^0.3.0",
     "babel-plugin-array-includes": "^2.0.3",
     "babel-plugin-transform-es2015-destructuring": "^6.16.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
