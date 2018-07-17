@@ -1,8 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const mocha = require('mocha');
-const TopologicalSort = require('../');
+import * as assert from 'assert';
+import { TopologicalSort } from '../src';
 
 /**
  * Validation routine for edges
@@ -11,32 +8,23 @@ const TopologicalSort = require('../');
  * @param {Array<Object{from, to}>} edges
  */
 function checkEdgesValid(sortOp, edges) {
-    edges.forEach(edge => sortOp.addEdge(edge.from, edge.to));
+    edges.forEach((edge) => sortOp.addEdge(edge.from, edge.to));
 
     const res = sortOp.sort();
     const sortedKeys = [...res.keys()];
 
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
         assert(
             sortedKeys.indexOf(edge.from) < sortedKeys.indexOf(edge.to),
-            `Node ${edge.from} should be placed before ${edge.to} in sorted output`
+            `Node ${edge.from} should be placed before ${edge.to} in sorted output`,
         );
     });
 }
 
 describe('topological-sort', () => {
-    it('should use expected API functions', () => {
-        assert.strictEqual(typeof TopologicalSort, 'function', 'Main exported object should be a function');
-
-        const sortOp = new TopologicalSort(new Map);
-        assert.strictEqual(typeof sortOp.addNode, 'function', 'TopologicalSort instance should has "addNode" method');
-        assert.strictEqual(typeof sortOp.addNodes, 'function', 'TopologicalSort instance should has "addNodes" method');
-        assert.strictEqual(typeof sortOp.sort, 'function', 'TopologicalSort instance should has "sort" method');
-        assert.strictEqual(typeof sortOp.addEdge, 'function', 'TopologicalSort instance should has "addEdge" method');
-    });
-
     it('should throw if addNode() is invoked with already existing node', () => {
-        const sortOp = new TopologicalSort(new Map);
+        const nodes = new Map<number, any>();
+        const sortOp = new TopologicalSort<number, any>(nodes);
 
         assert.doesNotThrow(() => {
             sortOp.addNode(1, {});
@@ -107,7 +95,7 @@ describe('topological-sort', () => {
             ['E', 5],
             ['F', 6],
             ['G', 7],
-            ['H', 8]
+            ['H', 8],
         ]);
         const sortOp = new TopologicalSort(nodes);
         const edges = [
@@ -118,7 +106,7 @@ describe('topological-sort', () => {
             {from: 'D', to: 'F'},
             {from: 'E', to: 'F'},
             {from: 'E', to: 'H'},
-            {from: 'F', to: 'G'}
+            {from: 'F', to: 'G'},
         ];
 
         checkEdgesValid(sortOp, edges);
@@ -136,7 +124,7 @@ describe('topological-sort', () => {
             {from: 'variables', to: 'mixins'},
             {from: 'variables', to: 'block'},
             {from: 'mixins', to: 'block'},
-            {from: 'block', to: 'block_mod_val'}
+            {from: 'block', to: 'block_mod_val'},
         ];
 
         checkEdgesValid(sortOp, edges);
@@ -151,7 +139,7 @@ describe('topological-sort', () => {
             ['argument', 'file://...'],
             ['mixins', 'file://...'],
             ['user', 'file://...'],
-            ['user-avatar', 'file://...']
+            ['user-avatar', 'file://...'],
         ]));
 
         const edges = [
@@ -163,7 +151,7 @@ describe('topological-sort', () => {
             {from: 'variables', to: 'user-avatar'},
             {from: 'mixins', to: 'user-avatar'},
             {from: 'variables', to: 'user'},
-            {from: 'mixins', to: 'user'}
+            {from: 'mixins', to: 'user'},
         ];
 
         checkEdgesValid(sortOp, edges);
@@ -176,7 +164,7 @@ describe('topological-sort', () => {
             ['argument', 'file://...'],
             ['mixins', 'file://...'],
             ['user', 'file://...'],
-            ['user-avatar', 'file://...']
+            ['user-avatar', 'file://...'],
         ]);
         const sortOp = new TopologicalSort(nodes);
 
@@ -189,7 +177,7 @@ describe('topological-sort', () => {
             {from: 'variables', to: 'user-avatar'},
             {from: 'mixins', to: 'user-avatar'},
             {from: 'variables', to: 'user'},
-            {from: 'mixins', to: 'user'}
+            {from: 'mixins', to: 'user'},
         ];
 
         edges.forEach(({from, to}) => sortOp.addEdge(from, to));
@@ -197,14 +185,14 @@ describe('topological-sort', () => {
         const res = sortOp.sort();
         const sortedKeys = [...res.keys()];
 
-        const res2 = sortOp.sort();
+        sortOp.sort();
         const sortedKeys2 = [...res.keys()];
 
-        sortedKeys.forEach((key, index) => {
+        sortedKeys.forEach((_, index) => {
             assert.strictEqual(
                 sortedKeys[index],
                 sortedKeys2[index],
-                `Sorted nodes differ at index ${index}`
+                `Sorted nodes differ at index ${index}`,
             );
         });
     });
@@ -216,7 +204,7 @@ describe('topological-sort', () => {
             ['argument', 'file://...'],
             ['mixins', 'file://...'],
             ['user', 'file://...'],
-            ['user-avatar', 'file://...']
+            ['user-avatar', 'file://...'],
         ]);
         const sortOp = new TopologicalSort(nodes);
 
@@ -229,7 +217,7 @@ describe('topological-sort', () => {
             {from: 'variables', to: 'user-avatar'},
             {from: 'mixins', to: 'user-avatar'},
             {from: 'variables', to: 'user'},
-            {from: 'user', to: 'mixins'}
+            {from: 'user', to: 'mixins'},
         ];
 
         edges.forEach(({from, to}) => sortOp.addEdge(from, to));
@@ -244,7 +232,7 @@ describe('topological-sort', () => {
             ['A', 'file://...'],
             ['B', 'file://...'],
             ['C', 'file://...'],
-            ['D', 'file://...']
+            ['D', 'file://...'],
         ]);
         const sortOp = new TopologicalSort(nodes);
 
@@ -252,7 +240,7 @@ describe('topological-sort', () => {
             {from: 'A', to: 'B'},
             {from: 'B', to: 'C'},
             {from: 'C', to: 'D'},
-            {from: 'D', to: 'B'}
+            {from: 'D', to: 'B'},
         ];
 
         edges.forEach(({from, to}) => sortOp.addEdge(from, to));
@@ -265,7 +253,7 @@ describe('topological-sort', () => {
     it('shouldn\'t throw for missing circular dependency', () => {
         const nodes = new Map([
             ['B', 'file://...'],
-            ['A', 'file://...']
+            ['A', 'file://...'],
         ]);
         const sortOp = new TopologicalSort(nodes);
         sortOp.addEdge('A', 'B');
@@ -278,7 +266,7 @@ describe('topological-sort', () => {
     it('shouldn\'t loose content associated with map keys after sort', () => {
         const nodes = new Map([
             ['A', 'some A contents'],
-            ['B', 'some B contents']
+            ['B', 'some B contents'],
         ]);
         const sortOp = new TopologicalSort(nodes);
         sortOp.addEdge('A', 'B');
