@@ -14,7 +14,7 @@
   "author": "Dmitry Sorin <info@staypositive.ru>",
   "license": "MIT",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
