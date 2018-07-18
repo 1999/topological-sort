@@ -20,4 +20,5 @@ node_modules
 
 .idea
 
-build.js
+# app specific
+dist

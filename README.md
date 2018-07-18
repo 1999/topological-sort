@@ -1,12 +1,16 @@
-# Topological sort implemented in Javascript (ES2016)
+# Topological sort
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/1999/topological-sort.svg)](https://greenkeeper.io/)
 [![Build Status](https://img.shields.io/travis/1999/topological-sort.svg?style=flat)](https://travis-ci.org/1999/topological-sort)
 [![DevDependency Status](http://img.shields.io/david/dev/1999/topological-sort.svg?style=flat)](https://david-dm.org/1999/topological-sort#info=devDependencies)
 
+This package is distributed as Javascript, but you can also use it in your TypeScript project.
+
 ## API
+### Javascript example
+
 ```javascript
-const TopologicalSort = require('topological-sort');
+const { TopologicalSort } = require('topological-sort');
 
 // you can pass nodes as a map into constructor:
 const nodes = new Map();
@@ -32,6 +36,25 @@ sortOp.addEdge('block', 'block_mod_val1');
 // if circular dependency is found, sort() operation throws an AssertionError
 const sorted = sortOp.sort();
 const sortedKeys = [...res.keys()]; // ['variables', 'mixins', 'block', 'block_mod_val1', 'block_mod_val2']
+```
+
+### Typescript example
+
+```typescript
+import TopologicalSort from 'topological-sort';
+
+// TopologicalSort class instances have a map inside.
+// This map stores the references between your nodes (edges)
+// "NodesKeyType" is the type for your tree node identifiers
+// "NodesValueType" is the type for your tree nodes
+const nodes = new Map<NodesKeyType, NodesValueType>();
+nodes.set('variables', variablesObj);
+nodes.set('mixins', mixinsObj);
+const sortOp = new TopologicalSort<NodesKeyType, NodesValueType>(nodes);
+
+sortOp.addEdge('variables', 'mixins');
+const sorted = sortOp.sort();
+const sortedKeys = [...res.keys()]; // ['variables', 'mixins']
 ```
 
 ## More info:

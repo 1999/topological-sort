@@ -1,30 +1,39 @@
 {
   "name": "topological-sort",
-  "version": "0.1.5",
-  "description": "Topological sort implemented in Javascript",
-  "main": "build.js",
+  "version": "0.2.0",
+  "description": "Topological sort",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/1999/topological-sort.git"
   },
   "scripts": {
-    "prepublish": "./node_modules/.bin/babel index.js --out-file build.js",
-    "test": "mocha test/"
+    "build": "tsc",
+    "clean": "rm -fr dist/",
+    "lint": "tslint -p . -c tslint.json 'src/*.ts'",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test:unit": "mocha --require ts-node/register src/*.spec.ts",
+    "test": "npm run lint && npm run test:unit"
   },
-  "author": "Dmitry Sorin <info@staypositive.ru>",
+  "author": "Dmitrii Sorin <info@staypositive.ru>",
   "license": "MIT",
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-plugin-add-module-exports": "^0.3.1",
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-plugin-transform-es2015-destructuring": "^6.16.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
-    "babel-plugin-transform-es2015-parameters": "^6.16.0",
-    "babel-plugin-transform-es2015-spread": "^6.8.0",
-    "babel-plugin-transform-object-rest-spread": "^6.16.0",
-    "mocha": "^5.0.0"
-  }
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.2",
+    "mocha": "^5.0.0",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
+  },
+  "keywords": [
+    "topological sort",
+    "topological",
+    "sort",
+    "graph",
+    "dependencies"
+  ],
+  "types": "dist/index.d.ts"
 }
