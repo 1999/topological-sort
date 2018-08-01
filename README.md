@@ -35,7 +35,15 @@ sortOp.addEdge('block', 'block_mod_val1');
 // sorting is simple: it returns a new map wih sorted elements
 // if circular dependency is found, sort() operation throws an AssertionError
 const sorted = sortOp.sort();
-const sortedKeys = [...res.keys()]; // ['variables', 'mixins', 'block', 'block_mod_val1', 'block_mod_val2']
+const sortedKeys = [...sorted.keys()]; // ['variables', 'mixins', 'block', 'block_mod_val1', 'block_mod_val2']
+
+// values of the `sorted` map are objects with this shape: `{ children, node }`
+// where node is the node object that you provided
+// and children is a map which values have the same shape
+const { node: variablesObj, children: variablesChildren } = sorted.get('variables');
+const { node: blocksObj1 } = variablesChildren.get('block');
+const { node: blocksObj2 } = sorted.get('block');
+assert(blocksObj1 === blocksObj2); // true
 ```
 
 ### Typescript example
@@ -52,9 +60,16 @@ nodes.set('variables', variablesObj);
 nodes.set('mixins', mixinsObj);
 const sortOp = new TopologicalSort<NodesKeyType, NodesValueType>(nodes);
 
+// `sortedKeys` is a topologically sorted list of node keys
 sortOp.addEdge('variables', 'mixins');
 const sorted = sortOp.sort();
-const sortedKeys = [...res.keys()]; // ['variables', 'mixins']
+const sortedKeys = [...sorted.keys()]; // ['variables', 'mixins']
+
+// `sorted` contains all nodes and their children
+const { node: variablesObj, children: variablesChildren } = sorted.get('variables');
+const { node: blocksObj1 } = variablesChildren.get('block');
+const { node: blocksObj2 } = sorted.get('block');
+assert(blocksObj1 === blocksObj2); // true
 ```
 
 ## More info:

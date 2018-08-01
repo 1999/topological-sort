@@ -1,11 +1,11 @@
 import * as assert from 'assert';
 
-interface INodeWithChildren<KeyType, ValueType> {
+export interface INodeWithChildren<KeyType, ValueType> {
     children: InternalNodesMap<KeyType, ValueType>;
     node: ValueType;
 }
 
-type InternalNodesMap<KeyType, ValueType> = Map<KeyType, INodeWithChildren<KeyType, ValueType>>;
+export type InternalNodesMap<KeyType, ValueType> = Map<KeyType, INodeWithChildren<KeyType, ValueType>>;
 
 class TopologicalSort<KeyType, ValueType> {
     private nodes: InternalNodesMap<KeyType, ValueType>;
@@ -44,17 +44,17 @@ class TopologicalSort<KeyType, ValueType> {
         sourceNode!.children.set(toKey, targetNode!);
     }
 
-    sort(): Map<KeyType, ValueType> {
+    sort(): Map<KeyType, INodeWithChildren<KeyType, ValueType>> {
         this.visitedNodes = new Set();
         this.sortedKeysStack = [];
-        const output = new Map<KeyType, ValueType>();
+        const output = new Map<KeyType, INodeWithChildren<KeyType, ValueType>>();
 
         for (const [key] of this.nodes) {
             this.exploreNode(key, []);
         }
 
         for (let i = this.sortedKeysStack.length - 1; i >= 0; i--) {
-            const { node } = this.nodes.get(this.sortedKeysStack[i])!;
+            const node = this.nodes.get(this.sortedKeysStack[i])!;
             output.set(this.sortedKeysStack[i], node);
         }
 

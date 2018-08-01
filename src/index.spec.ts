@@ -272,7 +272,7 @@ describe('topological-sort', () => {
         sortOp.addEdge('A', 'B');
 
         const sorted = sortOp.sort();
-        assert.strictEqual(sorted.get('A'), 'some A contents');
-        assert.strictEqual(sorted.get('B'), 'some B contents');
+        assert.strictEqual(sorted.get('A')!.node, 'some A contents');
+        assert.strictEqual(sorted.get('B')!.node, 'some B contents');
     });
 });
